@@ -1,6 +1,8 @@
 import { useState, useCallback, useEffect, useRef } from "react";
 
 function App() {
+
+  // use state hook
   const [password, setPassword] = useState("");
   const [len, setLen] = useState(8);
   const [numAllowed, setNumAllowed] = useState(false);
@@ -22,12 +24,15 @@ const passwordRef=useRef(null)
     }
 
     setPassword(pass);
-  }, [setPassword, len, numAllowed, charAllowed]);
+  }, [setPassword, len, numAllowed, charAllowed]); //using setPassword too for optimization
 
   const copyToClipboard = useCallback(()=>{
+    passwordRef.current?.select()
+    // passwordRef.current?.serSelectionRange(0,16) this will select only 16 chars
     window.navigator.clipboard.writeText(password)
-  })
+  },[password])
 
+  // use effect hook
   useEffect(()=>{passwordGenerator()},[len,numAllowed,charAllowed,passwordGenerator])
 
   return (
